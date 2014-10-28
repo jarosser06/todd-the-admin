@@ -14,7 +14,7 @@ sleep 2s
 sudo apt-get install git -y &> /dev/null
 
 ## Add the Nginx Repository
-echo "Todd# vi /etc/nginx/apt/sources.list.d"
+echo "Todd# vi /etc/nginx/apt/sources.list.d/nginx.list"
 sudo cp ./nginx.list /etc/apt/sources.list.d/nginx.list &> /dev/null
 sleep 8s
 
@@ -34,7 +34,7 @@ sleep 1s
 sudo chown -R www-data:www-data /var/www/${SITE_NAME}
 
 ## Edit the Nginx config
-echo "Todd# vi /etc/nginx/sites-enabled"
+echo "Todd# vi /etc/nginx/sites-enabled/magic"
 sleep 5s
 sudo rm /etc/nginx/sites-enabled/*default* &> /dev/null
 sudo rm /etc/nginx/sites-available/*default* &> /dev/null
