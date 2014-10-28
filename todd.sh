@@ -1,39 +1,44 @@
 #!/bin/bash
 
-GITHUB_SITE=""
-SITE_NAME=""
+GITHUB_SITE="https://github.com/jarosser06/magic"
+SITE_NAME="magic"
+
+echo "Todd is preparing..."
+
+## Clean up the cache
+sudo apt-get update &> /dev/null
 
 ## Clone the Site down
-echo "Todd needs to clone the site down from Github..."
-echo "Todd# sudo yum install git"
-sudo yum install git -y
+echo "Todd# sudo apt-get install git"
+sleep 2s
+sudo apt-get install git -y &> /dev/null
 
 ## Add the Nginx Repository
-echo "Todd needs to add the Nginx repo"
-echo "Todd# vi /etc/nginx/sites-enabled"
-sudo cp ./nginx.repo /etc/yum.repos.d/
-sleep 5s
+echo "Todd# vi /etc/nginx/apt/sources.list.d"
+sudo cp ./nginx.list /etc/apt/sources.list.d/nginx.list &> /dev/null
+sleep 8s
 
 ## Install Nginx
-echo "Todd needs to install Nginx..."
-echo "Todd# sudo yum install nginx"
-sudo yum install nginx -y
+echo "Todd# sudo apt-get install nginx"
+sleep 2s
+sudo apt-get install nginx -y &> /dev/null
 
-echo "Next up Todd clones the git repo..."
-echo "Todd# git clone ${GITHUB_SITE} -o ${SITE_NAME}"
+echo "Todd# mkdir /var/www"
+sleep 2s
+sudo mkdir /var/www &> /dev/null
+echo "Todd# sudo git clone ${GITHUB_SITE} /var/www/${SITE_NAME}"
+sleep 2s
+sudo git clone $GITHUB_SITE /var/www/$SITE_NAME &> /dev/null
+echo "Todd# chown -R www-data:www-data /var/www"
 sleep 1s
-pushd pushd /var/www &> /dev/null
-git clone $GITHUB_SITE -o $SITE_NAME
-echo "Todd# chown -R www-data:www-data /var/www/${SITE_NAME}"
-sleep 1s
-chown -R www-data:www-data /var/www/${SITE_NAME}
+sudo chown -R www-data:www-data /var/www/${SITE_NAME}
 
 ## Edit the Nginx config
-echo "Now Todd needs to set up the vhost config for the site ..."
 echo "Todd# vi /etc/nginx/sites-enabled"
-sudo rm /etc/sites-enabled/*default*
-sudo rm /etc/sites-available/*default*
-sudo cp ./nginx.conf /etc/nginx/sites-available/${SITE_NAME}
+sleep 5s
+sudo rm /etc/nginx/sites-enabled/*default* &> /dev/null
+sudo rm /etc/nginx/sites-available/*default* &> /dev/null
+sudo cp ./nginx.conf /etc/nginx/sites-available/${SITE_NAME} &> /dev/null
 
 for i in {1..5}
 do
@@ -41,11 +46,10 @@ do
   sleep 5s
 done
 
-echo "Todd lets enable and start the site"
-echo "Todd# sudo ln -s /etc/nginx/sites-enabled/${SITE_NAME} /etc/nginx/sites-available/${SITE_NAME}"
-sudo ln -s /etc/nginx/sites-enabled/${SITE_NAME} /etc/nginx/sites-available/${SITE_NAME}
+echo "Todd# sudo ln -s /etc/nginx/sites-available/${SITE_NAME} /etc/nginx/sites-enabled/${SITE_NAME}"
+sleep 3s
+sudo ln -s /etc/nginx/sites-available/${SITE_NAME} /etc/nginx/sites-enabled/${SITE_NAME} &> /dev/null
 
 echo "Todd# sudo service nginx restart"
-sudo service nginx restart
-
-## Add mistyped config perhaps?
+sleep 1s
+sudo service nginx restart &> /dev/null
